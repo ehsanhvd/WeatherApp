@@ -62,7 +62,13 @@ class MainActivity : ThemedActivity() {
         linProgress.visibility = View.GONE
 
         val currentTemp = uiState.data.current.temp
+
+        // not sure if these are correct or not
+        val minTemp = uiState.data.daily[0].temp.min
+        val maxTemp = uiState.data.daily[0].temp.min
+
         textAverageTemp.text = getString(R.string.celsiusDegree, currentTemp.roundToInt())
+        textMinAndMax.text = getString(R.string.slashPlaceholder, minTemp.roundToInt(), maxTemp.roundToInt())
     }
 
     private fun error(msg: String) {
