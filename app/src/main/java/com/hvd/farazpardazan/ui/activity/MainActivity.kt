@@ -11,12 +11,14 @@ import com.hvd.farazpardazan.data.net.model.ResOneCall
 import com.hvd.farazpardazan.databinding.ActivityMainBinding
 import com.hvd.farazpardazan.ui.state.DayState
 import com.hvd.farazpardazan.ui.state.UIState
+import com.hvd.farazpardazan.util.getIconResByCondition
 import com.hvd.farazpardazan.vm.activity.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
+
 
 @AndroidEntryPoint
 class MainActivity : ThemedActivity() {
@@ -52,6 +54,8 @@ class MainActivity : ThemedActivity() {
                 DayState.NIGHT -> setThemeAndRefresh(R.style.Night)
             }
         }
+
+        imageBigIcon.setImageResource(theme.getIconResByCondition(""))
     }
 
     private fun loading() {
