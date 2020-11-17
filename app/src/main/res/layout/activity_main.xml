@@ -45,7 +45,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/pleaseWait"
-                android:textColor="@color/primaryTextColor"
                 android:textSize="17sp" />
 
         </LinearLayout>
@@ -63,10 +62,9 @@
             android:id="@+id/textAverageTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/primaryTextColor"
+            android:layout_marginStart="24dp"
             android:textSize="60sp"
             app:fontIndex="3"
-            app:layout_constraintEnd_toStartOf="@+id/imageBigIcon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imageBigIcon"
             tools:text="23" />
@@ -77,7 +75,6 @@
             android:layout_height="wrap_content"
             android:textColor="@color/secondaryTextColor"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/textAverageTemp"
             app:layout_constraintStart_toStartOf="@+id/textAverageTemp"
             app:layout_constraintTop_toBottomOf="@+id/textAverageTemp" />
 
@@ -93,15 +90,14 @@
             android:paddingEnd="8dp"
             android:paddingBottom="5dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageBigIcon"
-            app:layout_constraintEnd_toEndOf="@+id/textAverageTemp"
             app:layout_constraintStart_toStartOf="@+id/textAverageTemp">
 
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_location"
                 android:layout_marginEnd="8dp"
+                app:srcCompat="@drawable/ic_location"
                 app:tint="@android:color/white" />
 
             <com.hvd.farazpardazan.ui.customview.CustomTextView
@@ -115,5 +111,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/textAverageTemp" />
 
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerWeek"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textAverageTemp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
