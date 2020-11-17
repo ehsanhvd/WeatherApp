@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Default" parent="Morning"/>
+
+    <style name="Dawn" parent="AppTheme">
+        <item name="background">@drawable/dawn_bg</item>
+        <item name="clearSky">@drawable/ic_clear_dawn</item>
+    </style>
+
+    <style name="Morning" parent="AppTheme">
+        <item name="background">@drawable/morning_bg</item>
+        <item name="clearSky">@drawable/ic_clear_morning</item>
+    </style>
+
+    <style name="Noon" parent="AppTheme">
+        <item name="background">@drawable/noon_bg</item>
+        <item name="clearSky">@drawable/ic_clear_morning</item>
+    </style>
+
+    <style name="Evening" parent="AppTheme">
+        <item name="background">@drawable/evening_bg</item>
+        <item name="clearSky">@drawable/ic_clear_evening</item>
+    </style>
+
+    <style name="Night" parent="AppTheme">
+        <item name="background">@drawable/night_bg</item>
+        <item name="clearSky">@drawable/ic_clear_night</item>
+    </style>
+
+
+</resources>

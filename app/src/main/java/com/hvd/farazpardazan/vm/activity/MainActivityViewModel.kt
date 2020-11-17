@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hvd.farazpardazan.data.net.WeatherRestApi
+import com.hvd.farazpardazan.ui.state.DayState
 import com.hvd.farazpardazan.ui.state.UIState
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -12,28 +13,31 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class MainActivityViewModel @ViewModelInject constructor(private val weatherRestApi: WeatherRestApi) : ViewModel() {
 
-    private val _navData = MutableLiveData<UIState>()
-    val navData: LiveData<UIState>
-        get() = _navData
+    private val _weatherData = MutableLiveData<UIState>()
+    val weatherData: LiveData<UIState> get() = _weatherData
+
+    private val _dayStateData = MutableLiveData<DayState>()
+    val dayStateData: LiveData<DayState> get() = _dayStateData
 
     private val compositeDisposable = CompositeDisposable()
 
     init {
-        _navData.value = UIState.Progress
+        _weatherData.value = UIState.Progress
 
         val observable = weatherRestApi.currentWeather(35.69, 51.42)
         val disposable = observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                _navData.value = UIState.Data(it)
+                _weatherData.value = UIState.Data(it)
             }, {
                 if (it.message != null) {
-                    _navData.value = UIState.Error(it.message!!)
+                    _weatherData.value = UIState.Error(it.message!!)
                 } else {
-                    _navData.value = UIState.Error()
+                    _weatherData.value = UIState.Error()
                 }
             })
 
+        _dayStateData.value = MainActivityVMUtils.getDayState()
         compositeDisposable.add(disposable)
     }
 
