@@ -2,16 +2,17 @@ package com.hvd.farazpardazan.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.hvd.farazpardazan.R
 
 abstract class ThemedActivity : AppCompatActivity() {
 
     companion object {
-        var currentTheme : Int = R.style.Default
+        var currentTheme : Int = 0
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(currentTheme)
+        if (currentTheme != 0){
+            setTheme(currentTheme)
+        }
         super.onCreate(savedInstanceState)
     }
 

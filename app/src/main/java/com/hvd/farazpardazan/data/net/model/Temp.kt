@@ -4,20 +4,20 @@ import com.google.gson.annotations.SerializedName
 
 data class Temp(
     @SerializedName("day")
-    val day: Int,
+    val day: Float,
 
     @SerializedName("max")
-    val max: Int,
+    val max: Float,
 
     @SerializedName("min")
-    val min: Int,
+    val min: Float,
 
     @SerializedName("night")
-    val night: Int,
+    val night: Float,
 
     @SerializedName("eve")
-    val evening: Int,
+    val evening: Float,
 
     @SerializedName("morn")
-    val morning: Int
+    val morning: Float
 )

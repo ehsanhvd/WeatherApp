@@ -1,20 +1,29 @@
 package com.hvd.farazpardazan.ui.activity
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.hvd.farazpardazan.R
+import com.hvd.farazpardazan.data.net.model.ResOneCall
 import com.hvd.farazpardazan.databinding.ActivityMainBinding
 import com.hvd.farazpardazan.ui.state.DayState
 import com.hvd.farazpardazan.ui.state.UIState
 import com.hvd.farazpardazan.vm.activity.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class MainActivity : ThemedActivity() {
+
+    @Inject
+    @ApplicationContext
+    lateinit var app: Context
 
     private lateinit var viewModel: MainActivityViewModel
 
@@ -29,13 +38,12 @@ class MainActivity : ThemedActivity() {
 
         viewModel.weatherData.observe(this) {
             when (it) {
-                UIState.Progress -> loading()
-                else -> data()
-
+                is UIState.Progress -> loading()
+                is UIState.Data<*> -> data(it as UIState.Data<ResOneCall>)
+                is UIState.Error -> error(it.msg)
             }
         }
-
-        viewModel.dayStateData.observe(this) {requestedDayState ->
+        viewModel.dayStateData.observe(this) { requestedDayState ->
             when (requestedDayState) {
                 DayState.DAWN -> setThemeAndRefresh(R.style.Dawn)
                 DayState.MORNING -> setThemeAndRefresh(R.style.Morning)
@@ -50,7 +58,14 @@ class MainActivity : ThemedActivity() {
         linProgress.visibility = View.VISIBLE
     }
 
-    private fun data() {
+    private fun data(uiState: UIState.Data<ResOneCall>) {
+        linProgress.visibility = View.GONE
+
+        val currentTemp = uiState.data.current.temp
+        textAverageTemp.text = getString(R.string.celsiusDegree, currentTemp.roundToInt())
+    }
+
+    private fun error(msg: String) {
         linProgress.visibility = View.GONE
     }
 }
