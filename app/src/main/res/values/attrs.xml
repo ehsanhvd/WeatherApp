@@ -2,4 +2,10 @@
 <resources>
     <attr name="background" format="reference" />
     <attr name="clearSky" format="reference" />
+    <attr name="fewClouds" format="reference" />
+    <attr name="rain" format="reference" />
+    <attr name="snow" format="reference" />
+    <attr name="mist" format="reference" />
+    <attr name="thunder" format="reference" />
+    <attr name="clouds" format="reference" />
 </resources>

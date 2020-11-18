@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.hvd.farazpardazan.R
 import com.hvd.farazpardazan.data.net.model.HourlyWeather
 import com.hvd.farazpardazan.ui.viewholder.HourViewHolder
+import kotlin.math.min
 
 class DayAdapter(list: List<HourlyWeather>) : BaseAdapter<HourlyWeather, HourViewHolder>(list) {
 
@@ -15,7 +16,10 @@ class DayAdapter(list: List<HourlyWeather>) : BaseAdapter<HourlyWeather, HourVie
     }
 
     override fun getItemCount(): Int {
-        return 7
+        //web service returns remaining hour slices of day,
+        //for example in 11 pm, webservice returns only 1 hourlyWeatherForecast
+
+        return min(7, mItems.size)
     }
 
     override fun onBindViewHolder(holder: HourViewHolder, position: Int) {

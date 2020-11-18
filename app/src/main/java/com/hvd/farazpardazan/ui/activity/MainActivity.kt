@@ -12,7 +12,7 @@ import com.hvd.farazpardazan.ui.adapter.DayAdapter
 import com.hvd.farazpardazan.ui.adapter.WeekAdapter
 import com.hvd.farazpardazan.ui.state.DayState
 import com.hvd.farazpardazan.ui.state.UIState
-import com.hvd.farazpardazan.util.getIconResByCondition
+import com.hvd.farazpardazan.util.ConditionHelper
 import com.hvd.farazpardazan.vm.activity.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
@@ -49,8 +49,6 @@ class MainActivity : ThemedActivity() {
                 DayState.NIGHT -> setThemeAndRefresh(R.style.Night)
             }
         }
-
-        imageBigIcon.setImageResource(theme.getIconResByCondition(""))
     }
 
     private fun loading() {
@@ -67,10 +65,21 @@ class MainActivity : ThemedActivity() {
         val maxTemp = uiState.data.daily[0].temp.max
 
         textAverageTemp.text = getString(R.string.celsiusDegree, currentTemp.roundToInt())
-        textMinAndMax.text = getString(R.string.slashPlaceholder, maxTemp.roundToInt(), minTemp.roundToInt())
+        textMinAndMax.text =
+            getString(R.string.slashPlaceholder, maxTemp.roundToInt(), minTemp.roundToInt())
 
         recyclerWeek.adapter = WeekAdapter(uiState.data.daily)
         recyclerDay.adapter = DayAdapter(uiState.data.hourly)
+
+        val condition = uiState.data.current.weather[0].main
+
+        imageBigIcon.setImageResource(
+            ConditionHelper.getIconResByCondition(
+                currentTheme,
+                theme,
+                condition
+            )
+        )
     }
 
     private fun error(msg: String) {

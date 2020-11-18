@@ -6,26 +6,56 @@
     <style name="Dawn" parent="AppTheme">
         <item name="background">@drawable/dawn_bg</item>
         <item name="clearSky">@drawable/ic_clear_dawn</item>
+        <item name="fewClouds">@drawable/ic_few_cloud_dawn</item>
+        <item name="rain">@drawable/ic_rain</item>
+        <item name="snow">@drawable/ic_snow</item>
+        <item name="mist">@drawable/ic_mist</item>
+        <item name="thunder">@drawable/ic_thunderstorm</item>
+        <item name="clouds">@drawable/ic_broken_cloud</item>
     </style>
 
     <style name="Morning" parent="AppTheme">
         <item name="background">@drawable/morning_bg</item>
         <item name="clearSky">@drawable/ic_clear_morning</item>
+        <item name="fewClouds">@drawable/ic_few_cloud_morning</item>
+        <item name="rain">@drawable/ic_rain</item>
+        <item name="snow">@drawable/ic_snow</item>
+        <item name="mist">@drawable/ic_mist</item>
+        <item name="thunder">@drawable/ic_thunderstorm</item>
+        <item name="clouds">@drawable/ic_broken_cloud</item>
     </style>
 
     <style name="Noon" parent="AppTheme">
         <item name="background">@drawable/noon_bg</item>
         <item name="clearSky">@drawable/ic_clear_morning</item>
+        <item name="fewClouds">@drawable/ic_few_cloud_morning</item>
+        <item name="rain">@drawable/ic_rain</item>
+        <item name="snow">@drawable/ic_snow</item>
+        <item name="mist">@drawable/ic_mist</item>
+        <item name="thunder">@drawable/ic_thunderstorm</item>
+        <item name="clouds">@drawable/ic_broken_cloud</item>
     </style>
 
     <style name="Evening" parent="AppTheme">
         <item name="background">@drawable/evening_bg</item>
         <item name="clearSky">@drawable/ic_clear_evening</item>
+        <item name="fewClouds">@drawable/ic_few_cloud_evening</item>
+        <item name="rain">@drawable/ic_rain</item>
+        <item name="snow">@drawable/ic_snow</item>
+        <item name="mist">@drawable/ic_mist</item>
+        <item name="thunder">@drawable/ic_thunderstorm</item>
+        <item name="clouds">@drawable/ic_scattered_clouds</item>
     </style>
 
     <style name="Night" parent="AppTheme">
         <item name="background">@drawable/night_bg</item>
         <item name="clearSky">@drawable/ic_clear_night</item>
+        <item name="fewClouds">@drawable/ic_few_clound_night</item>
+        <item name="rain">@drawable/ic_rain</item>
+        <item name="snow">@drawable/ic_snow</item>
+        <item name="mist">@drawable/ic_mist</item>
+        <item name="thunder">@drawable/ic_thunderstorm</item>
+        <item name="clouds">@drawable/ic_scattered_clouds</item>
     </style>
 
 
