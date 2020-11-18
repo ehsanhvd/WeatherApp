@@ -3,7 +3,7 @@
     package="com.hvd.farazpardazan">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    
+
     <application
         android:name="com.hvd.farazpardazan.App"
         android:allowBackup="true"
@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Default">
-        <activity android:name=".ui.activity.MainActivity">
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

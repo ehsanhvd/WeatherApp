@@ -9,6 +9,7 @@ import androidx.lifecycle.observe
 import com.hvd.farazpardazan.R
 import com.hvd.farazpardazan.data.net.model.ResOneCall
 import com.hvd.farazpardazan.databinding.ActivityMainBinding
+import com.hvd.farazpardazan.ui.adapter.DayAdapter
 import com.hvd.farazpardazan.ui.adapter.WeekAdapter
 import com.hvd.farazpardazan.ui.state.DayState
 import com.hvd.farazpardazan.ui.state.UIState
@@ -76,6 +77,7 @@ class MainActivity : ThemedActivity() {
         textMinAndMax.text = getString(R.string.slashPlaceholder, maxTemp.roundToInt(), minTemp.roundToInt())
 
         recyclerWeek.adapter = WeekAdapter(uiState.data.daily)
+        recyclerDay.adapter = DayAdapter(uiState.data.hourly)
     }
 
     private fun error(msg: String) {

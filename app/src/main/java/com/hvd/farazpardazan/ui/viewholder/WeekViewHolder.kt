@@ -9,9 +9,12 @@ import java.util.*
 import kotlin.math.roundToInt
 
 class WeekViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+    //static defined calendar to prevent every-time instantiation
     companion object {
-        val calendar = Calendar.getInstance()
+        val calendar : Calendar = Calendar.getInstance()
     }
+
     fun bind(dailyWeather: DailyWeather) {
 
         val minTemp = dailyWeather.temp.min
@@ -21,7 +24,7 @@ class WeekViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         itemView.textMaxTemp.text = itemView.context.getString(R.string.celsiusDegree, maxTemp.roundToInt())
 
         val timeStamp = dailyWeather.timeStamp
-        calendar.timeInMillis = timeStamp * 1000
+        calendar.timeInMillis = timeStamp * 1000 //convert seconds to milis
 
         itemView.textTitle.text = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US)
     }
