@@ -1,6 +1,5 @@
 package com.hvd.farazpardazan.vm.activity
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,7 +15,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import java.util.*
 
 class MainActivityViewModel @ViewModelInject constructor(private val weatherRestApi: WeatherRestApi) :
     ViewModel() {
@@ -43,9 +41,6 @@ class MainActivityViewModel @ViewModelInject constructor(private val weatherRest
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                it.daily.forEach { dw ->
-                    Log.d("weather daily", " ${Date(dw.timeStamp * 1000)}")
-                }
                 this.resOneCall = it
                 prepareData(it)
             }, {
@@ -60,7 +55,6 @@ class MainActivityViewModel @ViewModelInject constructor(private val weatherRest
         _dayStateData.value = MainActivityVMUtils.getDayState()
     }
 
-    // prepare and filter data for ui
     private fun prepareData(resOneCall: ResOneCall) {
         _weatherData.value = UIState.Data(resOneCall)
         filterAndEmitHourlyData(resOneCall.daily[0].timeStamp * 1000, resOneCall.hourly)
@@ -75,9 +69,7 @@ class MainActivityViewModel @ViewModelInject constructor(private val weatherRest
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .filter {
-                val isIn = it.timestamp * 1000 in dayStart..dayEnd
-                Log.d("weather hourly", " ${Date(it.timestamp * 1000)} $isIn")
-                isIn
+                it.timestamp * 1000 in dayStart..dayEnd
             }
             .toList()
         val disposable = observable.subscribe { it ->
