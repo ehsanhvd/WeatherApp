@@ -10,5 +10,5 @@ data class ResOneCall(
     val daily: List<DailyWeather>,
 
     @SerializedName("hourly")
-    val hourly: List<HourlyWeather>
+    var hourly: List<HourlyWeather>
 )
