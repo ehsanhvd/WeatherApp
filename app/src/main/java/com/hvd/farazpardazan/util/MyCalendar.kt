@@ -2,7 +2,11 @@ package com.hvd.farazpardazan.util
 
 import java.util.*
 
-class MyCalendar : GregorianCalendar() {
+class MyCalendar() : GregorianCalendar() {
+
+    constructor(milis: Long) : this() {
+        timeInMillis = milis
+    }
 
     fun setToDayStart() : Long {
         set(Calendar.HOUR_OF_DAY, 0)

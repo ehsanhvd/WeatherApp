@@ -1,10 +1,13 @@
 package com.hvd.farazpardazan.vm.activity
 
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hvd.farazpardazan.data.net.WeatherRestApi
+import com.hvd.farazpardazan.data.net.model.DailyWeather
+import com.hvd.farazpardazan.data.net.model.HourlyWeather
 import com.hvd.farazpardazan.data.net.model.ResOneCall
 import com.hvd.farazpardazan.ui.state.DayState
 import com.hvd.farazpardazan.ui.state.UIState
@@ -13,6 +16,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.util.*
 
 class MainActivityViewModel @ViewModelInject constructor(private val weatherRestApi: WeatherRestApi) :
     ViewModel() {
@@ -24,7 +28,12 @@ class MainActivityViewModel @ViewModelInject constructor(private val weatherRest
     private val _dayStateData = MutableLiveData<DayState>()
     val dayStateData: LiveData<DayState> get() = _dayStateData
 
+    private val _hourlyData = MutableLiveData<List<HourlyWeather>>()
+    val hourlyData: LiveData<List<HourlyWeather>> get() = _hourlyData
+
     private val compositeDisposable = CompositeDisposable()
+
+    private var resOneCall: ResOneCall? = null
 
     init {
         _weatherData.value = UIState.Progress
@@ -34,6 +43,10 @@ class MainActivityViewModel @ViewModelInject constructor(private val weatherRest
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                it.daily.forEach { dw ->
+                    Log.d("weather daily", " ${Date(dw.timeStamp * 1000)}")
+                }
+                this.resOneCall = it
                 prepareData(it)
             }, {
                 if (it.message != null) {
@@ -49,23 +62,33 @@ class MainActivityViewModel @ViewModelInject constructor(private val weatherRest
 
     // prepare and filter data for ui
     private fun prepareData(resOneCall: ResOneCall) {
-        val calendar = MyCalendar()
+        _weatherData.value = UIState.Data(resOneCall)
+        filterAndEmitHourlyData(resOneCall.daily[0].timeStamp * 1000, resOneCall.hourly)
+    }
+
+    private fun filterAndEmitHourlyData(dayTimeStamp: Long, hourlyWeather: List<HourlyWeather>){
+        val calendar = MyCalendar(dayTimeStamp)
         val dayStart = calendar.setToDayStart()
         val dayEnd = calendar.setToDayEnd()
 
-        val observable = Observable.fromIterable(resOneCall.hourly)
+        val observable = Observable.fromIterable(hourlyWeather)
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .filter {
-                it.timestamp * 1000 in dayStart..dayEnd
+                val isIn = it.timestamp * 1000 in dayStart..dayEnd
+                Log.d("weather hourly", " ${Date(it.timestamp * 1000)} $isIn")
+                isIn
             }
             .toList()
         val disposable = observable.subscribe { it ->
-            resOneCall.hourly = it
-            _weatherData.value = UIState.Data(resOneCall)
+            _hourlyData.value = it
         }
 
         compositeDisposable.add(disposable)
+    }
+
+    fun changeSelectedDay(dailyWeather: DailyWeather) {
+        filterAndEmitHourlyData(dailyWeather.timeStamp * 1000, resOneCall!!.hourly)
     }
 
     override fun onCleared() {

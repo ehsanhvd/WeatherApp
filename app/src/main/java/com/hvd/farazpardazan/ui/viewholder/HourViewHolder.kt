@@ -17,11 +17,11 @@ class HourViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
 
     fun bind(hourlyWeather: HourlyWeather) {
+        calendar.timeInMillis = hourlyWeather.timestamp * 1000
 
         val isAfterMidday = calendar.get(Calendar.AM_PM) == 0
         var hour = calendar.get(Calendar.HOUR)
 
-        calendar.timeInMillis = hourlyWeather.timestamp * 1000
         itemView.textTemp.text = itemView.context.getString(R.string.celsiusDegree, hourlyWeather.temp.roundToInt())
         itemView.imgIcon.setImageResource(ConditionHelper.getConditionDayDrawable(hourlyWeather.weather[0].main))
 

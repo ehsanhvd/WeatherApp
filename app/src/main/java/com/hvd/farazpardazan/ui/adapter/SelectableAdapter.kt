@@ -6,17 +6,17 @@ import com.hvd.farazpardazan.ui.viewholder.SelectableViewHolder
 abstract class SelectableAdapter<ItemViewType, ViewHolderType : SelectableViewHolder>(list: List<ItemViewType>) :
     BaseAdapter<ItemViewType, ViewHolderType>(list) {
 
-    private var onSelectListener: OnItemSelectListener<ItemViewType, ViewHolderType>? = null
+    private var onSelected: ((SelectableAdapter<ItemViewType, ViewHolderType>, Int) -> Unit)? = null
 
-    fun setOnSelectListener(onSelectListener: OnItemSelectListener<ItemViewType, ViewHolderType>) {
-        this.onSelectListener = onSelectListener
+    fun setOnSelectListener(onSelected: ((SelectableAdapter<ItemViewType, ViewHolderType>, Int) -> Unit)) {
+        this.onSelected = onSelected
     }
 
     var selectedIndex: Int? = null
         set(value) {
             field = value
-            if (onSelectListener != null) {
-                onSelectListener!!.onSelected(this, value ?: -1)
+            if (onSelected != null) {
+                onSelected!!(this, value ?: -1)
             }
         }
 
