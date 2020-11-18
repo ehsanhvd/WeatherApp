@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.hvd.farazpardazan.R
 import com.hvd.farazpardazan.data.net.model.DailyWeather
+import com.hvd.farazpardazan.ui.viewholder.OnViewHolderSelectListener
 import com.hvd.farazpardazan.ui.viewholder.SelectableViewHolder
 import com.hvd.farazpardazan.ui.viewholder.WeekViewHolder
 
 class WeekAdapter(list: List<DailyWeather>) : SelectableAdapter<DailyWeather, WeekViewHolder>(list),
-    SelectableViewHolder.OnSelectListener {
+    OnViewHolderSelectListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeekViewHolder {
         val weekVH =  WeekViewHolder(
@@ -28,8 +29,9 @@ class WeekAdapter(list: List<DailyWeather>) : SelectableAdapter<DailyWeather, We
         holder.bind(mItems[position])
     }
 
-    override fun onSelected(index: Int) {
+    override fun onSelected(selectableViewHolder: SelectableViewHolder, index: Int) {
         selectedIndex = index
         notifyDataSetChanged()
     }
+
 }

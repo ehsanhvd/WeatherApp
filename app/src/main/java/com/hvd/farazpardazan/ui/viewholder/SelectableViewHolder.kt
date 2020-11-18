@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class SelectableViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    private var onSelectListener: OnSelectListener? = null
+    private var onSelectListener: OnViewHolderSelectListener? = null
 
     open fun selectedState(selected: Boolean) {
 
@@ -13,15 +13,12 @@ abstract class SelectableViewHolder(view: View) : RecyclerView.ViewHolder(view) 
 
     fun select() {
         if (onSelectListener != null) {
-            onSelectListener!!.onSelected(adapterPosition)
+            onSelectListener!!.onSelected(this, adapterPosition)
         }
     }
 
-    fun setOnSelectListener(onSelectListener: OnSelectListener) {
+    fun setOnSelectListener(onSelectListener: OnViewHolderSelectListener) {
         this.onSelectListener = onSelectListener
     }
 
-    interface OnSelectListener {
-        fun onSelected(index: Int)
-    }
 }
