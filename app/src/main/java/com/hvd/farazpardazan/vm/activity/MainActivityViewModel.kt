@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hvd.farazpardazan.data.net.WeatherRestApi
+import com.hvd.farazpardazan.data.net.model.City
 import com.hvd.farazpardazan.data.net.model.DailyWeather
 import com.hvd.farazpardazan.data.net.model.HourlyWeather
 import com.hvd.farazpardazan.data.net.model.ResOneCall
@@ -33,34 +34,14 @@ class MainActivityViewModel @ViewModelInject constructor(private val weatherRest
 
     private var resOneCall: ResOneCall? = null
 
-    init {
-        _weatherData.value = UIState.Progress
-
-        val observable = weatherRestApi.currentWeather(35.69, 51.42)
-        val disposable = observable
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                this.resOneCall = it
-                prepareData(it)
-            }, {
-                if (it.message != null) {
-                    _weatherData.value = UIState.Error(it.message!!)
-                } else {
-                    _weatherData.value = UIState.Error()
-                }
-            })
-        compositeDisposable.add(disposable)
-
-        _dayStateData.value = MainActivityVMUtils.getDayState()
-    }
+    private var currentCity: City? = null
 
     private fun prepareData(resOneCall: ResOneCall) {
         _weatherData.value = UIState.Data(resOneCall)
         filterAndEmitHourlyData(resOneCall.daily[0].timeStamp * 1000, resOneCall.hourly)
     }
 
-    private fun filterAndEmitHourlyData(dayTimeStamp: Long, hourlyWeather: List<HourlyWeather>){
+    private fun filterAndEmitHourlyData(dayTimeStamp: Long, hourlyWeather: List<HourlyWeather>) {
         val calendar = MyCalendar(dayTimeStamp)
         val dayStart = calendar.setToDayStart()
         val dayEnd = calendar.setToDayEnd()
@@ -81,6 +62,33 @@ class MainActivityViewModel @ViewModelInject constructor(private val weatherRest
 
     fun changeSelectedDay(dailyWeather: DailyWeather) {
         filterAndEmitHourlyData(dailyWeather.timeStamp * 1000, resOneCall!!.hourly)
+    }
+
+    fun changeCity(city: City) {
+        currentCity = city
+        getData(city)
+    }
+
+    private fun getData(city: City) {
+        _weatherData.value = UIState.Progress
+
+        val observable = weatherRestApi.currentWeather(city.lat, city.lng)
+        val disposable = observable
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                this.resOneCall = it
+                prepareData(it)
+            }, {
+                if (it.message != null) {
+                    _weatherData.value = UIState.Error(it.message!!)
+                } else {
+                    _weatherData.value = UIState.Error()
+                }
+            })
+        compositeDisposable.add(disposable)
+
+        _dayStateData.value = MainActivityVMUtils.getDayState()
     }
 
     override fun onCleared() {

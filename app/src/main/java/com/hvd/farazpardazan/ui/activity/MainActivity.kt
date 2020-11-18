@@ -13,11 +13,13 @@ import com.hvd.farazpardazan.databinding.ActivityMainBinding
 import com.hvd.farazpardazan.ui.adapter.DayAdapter
 import com.hvd.farazpardazan.ui.adapter.SelectableAdapter
 import com.hvd.farazpardazan.ui.adapter.WeekAdapter
+import com.hvd.farazpardazan.ui.bottomsheet.CitiesFragmentBottomSheet
 import com.hvd.farazpardazan.ui.state.DayState
 import com.hvd.farazpardazan.ui.state.UIState
 import com.hvd.farazpardazan.ui.viewholder.WeekViewHolder
 import com.hvd.farazpardazan.util.ConditionHelper
 import com.hvd.farazpardazan.vm.activity.MainActivityViewModel
+import com.hvd.farazpardazan.vm.fragment.CitiesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.math.roundToInt
@@ -26,25 +28,29 @@ import kotlin.math.roundToInt
 @AndroidEntryPoint
 class MainActivity : ThemedActivity() {
 
-    private lateinit var viewModel: MainActivityViewModel
+    private lateinit var cityViewModel: CitiesViewModel
+    private lateinit var mainViewModel: MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+
+        mainViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+
+        cityViewModel = ViewModelProvider(this).get(CitiesViewModel::class.java)
 
         val binding =
             DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         binding.lifecycleOwner = this
-        binding.vm = viewModel
+        binding.vm = mainViewModel
 
-        viewModel.weatherData.observe(this) {
+        mainViewModel.weatherData.observe(this) {
             when (it) {
                 is UIState.Progress -> loading()
                 is UIState.Data<*> -> data(it as UIState.Data<ResOneCall>)
                 is UIState.Error -> error(it.msg)
             }
         }
-        viewModel.dayStateData.observe(this) { requestedDayState ->
+        mainViewModel.dayStateData.observe(this) { requestedDayState ->
             when (requestedDayState) {
                 DayState.DAWN -> setThemeAndRefresh(R.style.Dawn)
                 DayState.MORNING -> setThemeAndRefresh(R.style.Morning)
@@ -54,8 +60,26 @@ class MainActivity : ThemedActivity() {
             }
         }
 
-        viewModel.hourlyData.observe(this) {
+        mainViewModel.hourlyData.observe(this) {
             initDayAdapter(it)
+        }
+
+        cityViewModel.selectedCity.observe(this) {
+            mainViewModel.changeCity(it)
+            textCity.text = it.name
+        }
+
+        cityViewModel.selectDefaultCity()
+        linCities.setOnClickListener {
+            if (mainViewModel.weatherData.value == UIState.Progress) {
+                return@setOnClickListener
+            }
+
+            val cityBottomSheet = CitiesFragmentBottomSheet(cityViewModel.selectedCity.value!!)
+                cityBottomSheet.onCityPicked { citiesFragmentBottomSheet, city ->
+                    cityViewModel.changeCity(city)
+                }
+            cityBottomSheet.show(supportFragmentManager, null)
         }
     }
 
@@ -95,7 +119,7 @@ class MainActivity : ThemedActivity() {
         val adapter = WeekAdapter(uiState.data.daily)
         adapter.selectedIndex = 0
         adapter.setOnSelectListener { selectableAdapter: SelectableAdapter<DailyWeather, WeekViewHolder>, i: Int ->
-            viewModel.changeSelectedDay(selectableAdapter.mItems[i])
+            mainViewModel.changeSelectedDay(selectableAdapter.mItems[i])
         }
         recyclerWeek.adapter = adapter
     }
@@ -103,7 +127,8 @@ class MainActivity : ThemedActivity() {
     private fun initDayAdapter(hourlyWeather: List<HourlyWeather>) {
         recyclerDay.adapter = DayAdapter(hourlyWeather)
 
-        textEmptyHourlyData.visibility = if (hourlyWeather.isEmpty()) View.VISIBLE else View.INVISIBLE
+        textEmptyHourlyData.visibility =
+            if (hourlyWeather.isEmpty()) View.VISIBLE else View.INVISIBLE
     }
 
     private fun error(msg: String) {

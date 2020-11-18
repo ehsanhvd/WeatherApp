@@ -79,7 +79,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textAverageTemp" />
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/linCities"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/city_button_bg"
@@ -104,7 +104,6 @@
                 android:id="@+id/textCity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tehran"
                 android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="@+id/textAverageTemp"
                 app:layout_constraintStart_toStartOf="@+id/textAverageTemp"
@@ -132,7 +131,7 @@
             app:layout_constraintBottom_toTopOf="@+id/recyclerWeek"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/linCities"
             app:layout_constraintVertical_bias="0.50" />
 
         <com.hvd.farazpardazan.ui.customview.CustomTextView
