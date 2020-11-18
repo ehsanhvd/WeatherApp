@@ -102,6 +102,8 @@ class MainActivity : ThemedActivity() {
 
     private fun initDayAdapter(hourlyWeather: List<HourlyWeather>) {
         recyclerDay.adapter = DayAdapter(hourlyWeather)
+
+        textEmptyHourlyData.visibility = if (hourlyWeather.isEmpty()) View.VISIBLE else View.INVISIBLE
     }
 
     private fun error(msg: String) {

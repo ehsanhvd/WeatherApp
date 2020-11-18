@@ -134,5 +134,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             app:layout_constraintVertical_bias="0.50" />
+
+        <com.hvd.farazpardazan.ui.customview.CustomTextView
+            android:id="@+id/textEmptyHourlyData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hourlyDataNotAvailable"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/recyclerDay"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerDay"
+            app:layout_constraintStart_toStartOf="@+id/recyclerDay"
+            app:layout_constraintTop_toTopOf="@+id/recyclerDay" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
