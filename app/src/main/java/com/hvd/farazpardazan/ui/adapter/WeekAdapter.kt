@@ -6,7 +6,7 @@ import com.hvd.farazpardazan.R
 import com.hvd.farazpardazan.data.net.model.DailyWeather
 import com.hvd.farazpardazan.ui.viewholder.WeekViewHolder
 
-class WeekAdapter(list: List<DailyWeather>) : BaseAdapter<DailyWeather, WeekViewHolder>(list) {
+class WeekAdapter(list: List<DailyWeather>) : SelectableAdapter<DailyWeather, WeekViewHolder>(list) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeekViewHolder {
         return WeekViewHolder(
@@ -19,6 +19,7 @@ class WeekAdapter(list: List<DailyWeather>) : BaseAdapter<DailyWeather, WeekView
     }
 
     override fun onBindViewHolder(holder: WeekViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
         holder.bind(mItems[position])
     }
 }

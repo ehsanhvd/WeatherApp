@@ -17,6 +17,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class MainActivityViewModel @ViewModelInject constructor(private val weatherRestApi: WeatherRestApi) :
     ViewModel() {
 
+    //preventing exposure of mutable live data
     private val _weatherData = MutableLiveData<UIState>()
     val weatherData: LiveData<UIState> get() = _weatherData
 

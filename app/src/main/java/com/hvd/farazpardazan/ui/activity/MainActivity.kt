@@ -68,7 +68,10 @@ class MainActivity : ThemedActivity() {
         textMinAndMax.text =
             getString(R.string.slashPlaceholder, maxTemp.roundToInt(), minTemp.roundToInt())
 
-        recyclerWeek.adapter = WeekAdapter(uiState.data.daily)
+        val adapter = WeekAdapter(uiState.data.daily)
+        adapter.selectedIndex = 0
+        recyclerWeek.adapter = adapter
+
         recyclerDay.adapter = DayAdapter(uiState.data.hourly)
 
         val condition = uiState.data.current.weather[0].main

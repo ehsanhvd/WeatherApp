@@ -1,7 +1,6 @@
 package com.hvd.farazpardazan.ui.viewholder
 
 import android.view.View
-import androidx.recyclerview.widget.RecyclerView
 import com.hvd.farazpardazan.R
 import com.hvd.farazpardazan.data.net.model.DailyWeather
 import com.hvd.farazpardazan.util.ConditionHelper
@@ -9,7 +8,7 @@ import kotlinx.android.synthetic.main.row_week_day_item.view.*
 import java.util.*
 import kotlin.math.roundToInt
 
-class WeekViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class WeekViewHolder(view: View) : SelectableViewHolder(view) {
 
     //static defined calendar to prevent every-time instantiation
     companion object {
@@ -31,5 +30,9 @@ class WeekViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         itemView.textTitle.text = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US)
 
         itemView.imgIcon.setImageResource(ConditionHelper.getConditionDayDrawable(weatherCond))
+    }
+
+    override fun onSelect() {
+        itemView.imgSelection.visibility = View.VISIBLE
     }
 }

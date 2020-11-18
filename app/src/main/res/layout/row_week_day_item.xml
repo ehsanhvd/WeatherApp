@@ -10,13 +10,13 @@
         android:id="@+id/textTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imgIcon"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgSelection"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Title" />
 
@@ -51,4 +51,15 @@
         app:layout_constraintEnd_toStartOf="@+id/textMinTemp"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="test" />
+
+    <ImageView
+        android:id="@+id/imgSelection"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:src="@drawable/white_circle"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>
