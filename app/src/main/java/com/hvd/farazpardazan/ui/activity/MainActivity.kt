@@ -1,6 +1,5 @@
 package com.hvd.farazpardazan.ui.activity
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
@@ -16,18 +15,12 @@ import com.hvd.farazpardazan.ui.state.UIState
 import com.hvd.farazpardazan.util.getIconResByCondition
 import com.hvd.farazpardazan.vm.activity.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.android.synthetic.main.activity_main.*
-import javax.inject.Inject
 import kotlin.math.roundToInt
 
 
 @AndroidEntryPoint
 class MainActivity : ThemedActivity() {
-
-    @Inject
-    @ApplicationContext
-    lateinit var app: Context
 
     private lateinit var viewModel: MainActivityViewModel
 

@@ -56,7 +56,7 @@ class MainActivityViewModel @ViewModelInject constructor(private val weatherRest
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .filter {
-                it.timestamp in dayStart..dayEnd
+                it.timestamp * 1000 in dayStart..dayEnd
             }
             .toList()
         val disposable = observable.subscribe { it ->
