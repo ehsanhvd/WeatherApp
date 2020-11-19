@@ -14,10 +14,22 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.cities_bottom_sheet.*
 
 @AndroidEntryPoint
-class CitiesFragmentBottomSheet(private val currentCity: City) : BaseFragmentBottomSheet() {
+class CitiesFragmentBottomSheet : BaseFragmentBottomSheet() {
 
     private lateinit var viewModel : CitiesViewModel
     private var onCityPicked: ((CitiesFragmentBottomSheet, City) -> Unit)? = null
+    lateinit var currentCity: City
+
+    companion object {
+        fun getInstance(currentCity: City) : CitiesFragmentBottomSheet{
+            val fragment = CitiesFragmentBottomSheet()
+            val args = Bundle()
+            args.putSerializable("currentCity", currentCity)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +44,7 @@ class CitiesFragmentBottomSheet(private val currentCity: City) : BaseFragmentBot
 
         viewModel = ViewModelProvider(this).get(CitiesViewModel::class.java)
 
+        currentCity = arguments?.getSerializable("currentCity") as City
         viewModel.citiesData.observe(this) {
             initAdapter(it)
         }

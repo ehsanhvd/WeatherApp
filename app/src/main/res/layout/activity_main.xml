@@ -80,6 +80,8 @@
 
         <LinearLayout
             android:id="@+id/linCities"
+            android:visibility="invisible"
+            tools:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/city_button_bg"

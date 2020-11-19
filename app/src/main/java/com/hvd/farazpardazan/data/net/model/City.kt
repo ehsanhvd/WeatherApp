@@ -1,3 +1,5 @@
 package com.hvd.farazpardazan.data.net.model
 
-data class City(val name:String, val lat: Double, val lng: Double)
+import java.io.Serializable
+
+data class City(val name:String, val lat: Double, val lng: Double) : Serializable

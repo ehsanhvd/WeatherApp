@@ -75,8 +75,8 @@ class MainActivity : ThemedActivity() {
                 return@setOnClickListener
             }
 
-            val cityBottomSheet = CitiesFragmentBottomSheet(cityViewModel.selectedCity.value!!)
-                cityBottomSheet.onCityPicked { citiesFragmentBottomSheet, city ->
+            val cityBottomSheet = CitiesFragmentBottomSheet.getInstance(cityViewModel.selectedCity.value!!)
+                cityBottomSheet.onCityPicked { _, city ->
                     cityViewModel.changeCity(city)
                 }
             cityBottomSheet.show(supportFragmentManager, null)
@@ -85,10 +85,12 @@ class MainActivity : ThemedActivity() {
 
     private fun loading() {
         linProgress.visibility = View.VISIBLE
+        linCities.visibility = View.GONE
     }
 
     private fun data(uiState: UIState.Data<ResOneCall>) {
         linProgress.visibility = View.GONE
+        linCities.visibility = View.VISIBLE
 
         renderMainItems(uiState)
         initWeekAdapter(uiState)
@@ -133,5 +135,6 @@ class MainActivity : ThemedActivity() {
 
     private fun error(msg: String) {
         linProgress.visibility = View.GONE
+        linCities.visibility = View.GONE
     }
 }
