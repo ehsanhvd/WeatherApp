@@ -5,6 +5,7 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import com.bumptech.glide.Glide
 import com.hvd.farazpardazan.R
 import com.hvd.farazpardazan.data.net.model.DailyWeather
 import com.hvd.farazpardazan.data.net.model.HourlyWeather
@@ -76,10 +77,11 @@ class MainActivity : ThemedActivity() {
                 return@setOnClickListener
             }
 
-            val cityBottomSheet = CitiesFragmentBottomSheet.getInstance(cityViewModel.selectedCity.value!!)
-                cityBottomSheet.onCityPicked { _, city ->
-                    cityViewModel.changeCity(city)
-                }
+            val cityBottomSheet =
+                CitiesFragmentBottomSheet.getInstance(cityViewModel.selectedCity.value!!)
+            cityBottomSheet.onCityPicked { _, city ->
+                cityViewModel.changeCity(city)
+            }
             cityBottomSheet.show(supportFragmentManager, null)
         }
 
@@ -113,13 +115,16 @@ class MainActivity : ThemedActivity() {
             getString(R.string.slashPlaceholder, maxTemp.roundToInt(), minTemp.roundToInt())
 
         val condition = uiState.data.current.weather[0].main
-        imageBigIcon.setImageResource(
-            ConditionHelper.getIconResByCondition(
-                currentTheme,
-                theme,
-                condition
-            )
+        val drawableRes = ConditionHelper.getIconResByCondition(
+            currentTheme,
+            theme,
+            condition
         )
+        Glide
+            .with(this)
+            .load(drawableRes)
+            .centerInside()
+            .into(imageBigIcon)
     }
 
     private fun initWeekAdapter(uiState: UIState.Data<ResOneCall>) {
@@ -141,7 +146,7 @@ class MainActivity : ThemedActivity() {
     private fun error(msg: String) {
         linProgress.visibility = View.GONE
         linCities.visibility = View.GONE
-        NetworkErrorDialog(this){
+        NetworkErrorDialog(this) {
             it.dismiss()
             mainViewModel.refresh()
         }.show()

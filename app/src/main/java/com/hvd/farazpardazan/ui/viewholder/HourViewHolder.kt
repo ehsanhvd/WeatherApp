@@ -2,6 +2,7 @@ package com.hvd.farazpardazan.ui.viewholder
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.hvd.farazpardazan.R
 import com.hvd.farazpardazan.data.net.model.HourlyWeather
 import com.hvd.farazpardazan.util.ConditionHelper
@@ -23,7 +24,13 @@ class HourViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var hour = calendar.get(Calendar.HOUR)
 
         itemView.textTemp.text = itemView.context.getString(R.string.celsiusDegree, hourlyWeather.temp.roundToInt())
-        itemView.imgIcon.setImageResource(ConditionHelper.getConditionDayDrawable(hourlyWeather.weather[0].main))
+
+        val drawableRes = ConditionHelper.getConditionDayDrawable(hourlyWeather.weather[0].main)
+        Glide
+            .with(itemView.context)
+            .load(drawableRes)
+            .centerInside()
+            .into(itemView.imgIcon)
 
         if (isAfterMidday){
             itemView.textHour.text = itemView.context.getString(R.string.amPlaceholder, hour)

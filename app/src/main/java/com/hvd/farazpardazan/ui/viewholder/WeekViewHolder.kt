@@ -1,6 +1,7 @@
 package com.hvd.farazpardazan.ui.viewholder
 
 import android.view.View
+import com.bumptech.glide.Glide
 import com.hvd.farazpardazan.R
 import com.hvd.farazpardazan.data.net.model.DailyWeather
 import com.hvd.farazpardazan.util.ConditionHelper
@@ -32,7 +33,13 @@ class WeekViewHolder(view: View) : SelectableViewHolder(view), View.OnClickListe
         itemView.textTitle.text =
             calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US)
 
-        itemView.imgIcon.setImageResource(ConditionHelper.getConditionDayDrawable(weatherCond))
+        val drawableRes = ConditionHelper.getConditionDayDrawable(weatherCond)
+        Glide
+            .with(itemView.context)
+            .load(drawableRes)
+            .centerInside()
+            .into(itemView.imgIcon)
+
         itemView.setOnClickListener(this)
     }
 
