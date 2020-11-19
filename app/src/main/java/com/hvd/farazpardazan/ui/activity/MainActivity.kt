@@ -14,6 +14,7 @@ import com.hvd.farazpardazan.ui.adapter.DayAdapter
 import com.hvd.farazpardazan.ui.adapter.SelectableAdapter
 import com.hvd.farazpardazan.ui.adapter.WeekAdapter
 import com.hvd.farazpardazan.ui.bottomsheet.CitiesFragmentBottomSheet
+import com.hvd.farazpardazan.ui.dialog.NetworkErrorDialog
 import com.hvd.farazpardazan.ui.state.DayState
 import com.hvd.farazpardazan.ui.state.UIState
 import com.hvd.farazpardazan.ui.viewholder.WeekViewHolder
@@ -81,6 +82,10 @@ class MainActivity : ThemedActivity() {
                 }
             cityBottomSheet.show(supportFragmentManager, null)
         }
+
+        imgMore.setOnClickListener {
+            AboutActivity.start(this)
+        }
     }
 
     private fun loading() {
@@ -136,5 +141,9 @@ class MainActivity : ThemedActivity() {
     private fun error(msg: String) {
         linProgress.visibility = View.GONE
         linCities.visibility = View.GONE
+        NetworkErrorDialog(this){
+            it.dismiss()
+            mainViewModel.refresh()
+        }.show()
     }
 }

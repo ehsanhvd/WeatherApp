@@ -6,4 +6,7 @@
     <string name="amPlaceholder">%1$dam</string>
     <string name="pmPlaceholder">%1$dpm</string>
     <string name="hourlyDataNotAvailable">Hourly forecast not available on this day</string>
+    <string name="networkError">Network error while retrieving data</string>
+    <string name="retry">Retry</string>
+    <string name="info">WeatherApp sample, using kotlin, MVVM, liveData, rxJava, retrofit.\n\nAll recommendations or improvements are welcomed.</string>
 </resources>

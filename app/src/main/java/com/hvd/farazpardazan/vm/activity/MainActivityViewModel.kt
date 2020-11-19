@@ -91,6 +91,10 @@ class MainActivityViewModel @ViewModelInject constructor(private val weatherRest
         _dayStateData.value = MainActivityVMUtils.getDayState()
     }
 
+    fun refresh() {
+        getData(currentCity!!)
+    }
+
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.clear()
